@@ -1,3 +1,4 @@
+<!-- From: /Users/zbw/mypro/blog/AGENTS.md -->
 # AGENTS.md
 
 本文件面向 AI 编码助手，用于快速了解本项目的技术栈、架构与开发规范。
@@ -6,13 +7,14 @@
 
 ## 项目概述
 
-本项目是一个**极简的个人博客**，使用 Python + Flask 构建。博客没有数据库，所有文章内容直接读取 `posts/` 目录下的 Markdown 文件并动态渲染为 HTML。
+本项目是一个**极简的个人博客**，使用 Python + Flask 构建，同时支持**纯静态站点生成**以部署到 GitHub Pages。
 
 核心特点：
+- **双模式运行**：本地用 Flask 预览，部署时运行 `build.py` 生成纯静态 HTML
 - 纯静态文件驱动：将 `.md` 文件放入 `posts/` 目录即可发布文章
 - 支持 YAML frontmatter 设置标题、日期、标签
 - 支持 Markdown 语法、代码高亮、自动生成目录（TOC）
-- 单文件应用，无外部数据库依赖
+- 无外部数据库依赖
 
 ---
 
@@ -20,10 +22,11 @@
 
 | 层级 | 技术 |
 |------|------|
-| 后端框架 | Flask 3.0.3 |
+| 后端框架 | Flask 3.0.3（仅本地开发预览）|
+| 静态生成 | `build.py`（Jinja2 + Python-Markdown）|
 | Markdown 渲染 | Python-Markdown 3.6（含 fenced_code、tables、codehilite、toc 扩展）|
 | 代码高亮 | Pygments 2.18.0 |
-| 模板引擎 | Jinja2（Flask 内置）|
+| 模板引擎 | Jinja2 |
 | 前端样式 | 原生 CSS（无 JS 框架）|
 | 字体 | Google Fonts: Noto Serif SC / Noto Sans SC |
 
@@ -33,42 +36,90 @@
 
 ```
 .
-├── app.py              # 唯一的 Flask 应用入口，包含路由、文章解析逻辑
+├── app.py              # Flask 应用入口（本地开发服务器）
+├── build.py            # 静态站点生成器（部署到 GitHub Pages 前运行）
 ├── requirements.txt    # Python 依赖
-├── start.sh            # 一键启动脚本（安装依赖 + 运行服务）
+├── start.sh            # 一键启动本地开发服务器
 ├── posts/              # 文章目录，存放 Markdown 文件
 │   └── YYYY-MM-DD-标题.md
 ├── templates/          # Jinja2 模板
-│   ├── base.html       # 基础布局（头部导航、页脚、CSS 引用）
+│   ├── base.html       # 基础布局
 │   ├── index.html      # 首页：文章列表
 │   ├── post.html       # 文章详情页（含 TOC、正文、返回链接）
 │   └── about.html      # 关于页面
-└── static/
-    └── style.css       # 完整样式表（响应式、Markdown 渲染样式、代码高亮）
+├── static/
+│   └── style.css       # 完整样式表（响应式、Markdown 渲染样式、代码高亮）
+│
+# 以下由 build.py 自动生成（部署到 GitHub Pages 所需）
+├── index.html
+├── .nojekyll
+├── about/
+│   └── index.html
+└── post/
+    └── <slug>/
+        └── index.html
 ```
+
+> **注意**：`build.py` 生成的 `index.html`、`about/index.html`、`post/*/index.html` 等文件必须一并提交到 GitHub 仓库的 `main` 分支，GitHub Pages 才能正确访问。
 
 ---
 
 ## 运行方式
 
-### 一键启动（推荐）
+### 本地开发预览（Flask）
 
 ```bash
 ./start.sh
 ```
 
-脚本会：
-1. 自动安装 `requirements.txt` 中的依赖（`pip3 install -r requirements.txt`）
-2. 启动 Flask 内置服务器于 `http://localhost:5000`
-
-### 手动启动
+或手动：
 
 ```bash
 pip install -r requirements.txt
 python app.py
 ```
 
-生产环境请注意：`app.py` 中 `debug=False`，但内置服务器不适合高并发生产部署，建议使用 gunicorn 等 WSGI 服务器。
+本地访问：`http://localhost:5000`
+
+### 生成静态站点（GitHub Pages 部署）
+
+```bash
+python build.py
+```
+
+生成完成后，将变更 `git add` + `git commit` + `git push` 到 `main` 分支即可。
+
+---
+
+## GitHub Pages 部署说明
+
+### 为什么需要 build.py
+
+`vorlunez.github.io` 是 **GitHub Pages 用户站点**，它只能托管**纯静态文件**（HTML/CSS/JS），**不支持 Python/Flask 后端运行**。因此必须把模板渲染成静态 HTML 后上传。
+
+### 部署步骤
+
+1. 写文章：将 `.md` 文件放入 `posts/` 目录
+2. 生成静态文件：
+   ```bash
+   python3 build.py
+   ```
+3. 提交并推送：
+   ```bash
+   git add .
+   git commit -m "更新博客内容"
+   git push origin main
+   ```
+4. 访问 `https://vorlunez.github.io` 查看效果
+
+### GitHub Pages 设置确认
+
+在仓库的 **Settings → Pages** 中：
+- **Source**：Deploy from a branch
+- **Branch**：`main` / `root (/)`
+- 点击 Save
+
+> 对于 `username.github.io` 类型的仓库，GitHub 只允许使用 `main` 分支的根目录作为 Pages 源。
 
 ---
 
@@ -107,19 +158,19 @@ tags: python, flask, 随笔
 
 ### 支持的 Markdown 扩展
 
--  fenced_code（代码块）
--  tables（表格）
--  codehilite（语法高亮，CSS class 为 `highlight`）
--  toc（自动生成目录，支持 h2-h3 级标题，带锚点链接）
+- fenced_code（代码块）
+- tables（表格）
+- codehilite（语法高亮，CSS class 为 `highlight`）
+- toc（自动生成目录，支持 h2-h3 级标题，带锚点链接）
 
 ---
 
 ## 代码风格与开发约定
 
-- **单文件应用**：所有后端逻辑集中在 `app.py`，新增功能时请保持简洁
+- **双模式支持**：修改模板时，确保同时兼容 Flask (`app.py`) 和静态生成器 (`build.py`)
+- **模板变量**：`base.html` 使用 `{{ year }}` 替代 `now().year`，由 `app.py` 和 `build.py` 共同传入
+- **静态路径**：模板中 CSS 使用 `/static/style.css`，文章链接使用 `/post/<slug>/`
 - **编码**：文件统一使用 UTF-8
-- **模板继承**：所有页面继承 `base.html`，通过 `{% block content %}` 填充主体
-- **静态资源**：CSS 与图片放在 `static/`，模板中使用 `url_for('static', filename='...')` 引用
 - **中文优先**：项目面向中文用户，注释、UI 文本、frontmatter 均使用中文
 
 ---

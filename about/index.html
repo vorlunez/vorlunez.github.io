@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}我的个人博客{% endblock %}</title>
+    <title>关于 - 我的个人博客</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -21,13 +21,28 @@
 
     <main class="main-content">
         <div class="container">
-            {% block content %}{% endblock %}
+            
+<div class="about-page">
+    <h1>关于</h1>
+    <p>这是一个简洁的个人博客，使用 Python + Flask 构建。</p>
+    <p>你可以将 Markdown 文件放在 <code>posts/</code> 目录下，博客会自动读取并渲染。</p>
+    <p>支持 YAML frontmatter 来设置标题、日期和标签：</p>
+    <pre><code>---
+title: 文章标题
+date: 2024-01-01
+tags: python, flask
+---
+
+这里是正文内容，支持 Markdown 语法。
+</code></pre>
+</div>
+
         </div>
     </main>
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; {{ year }} 个人博客 · 用 Markdown 记录生活</p>
+            <p>&copy; 2026 个人博客 · 用 Markdown 记录生活</p>
         </div>
     </footer>
 </body>

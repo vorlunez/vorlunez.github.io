@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎来到我的博客 - 我的个人博客</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="site-title">我的博客</a>
+            <nav class="site-nav">
+                <a href="/" class="nav-link">首页</a>
+                <a href="/about/" class="nav-link">关于</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            
+<article class="post-article">
+    <header class="post-header">
+        <h1 class="post-title">欢迎来到我的博客</h1>
+        <div class="post-meta">
+            <time class="post-date">2024-01-15</time>
+            
+            <span class="post-tags">
+                
+                    <span class="tag">随笔</span>
+                
+                    <span class="tag">开始</span>
+                
+            </span>
+            
+        </div>
+    </header>
+
+    
+    <div class="post-toc">
+        <details open>
+            <summary>目录</summary>
+            <div class="toc">
+<ul>
+<li><a href="#_1">特性</a></li>
+<li><a href="#_2">写作示例</a><ul>
+<li><a href="#_3">代码块</a></li>
+<li><a href="#_4">表格</a></li>
+<li><a href="#_5">引用</a></li>
+</ul>
+</li>
+<li><a href="#_6">开始使用</a></li>
+</ul>
+</div>
+
+        </details>
+    </div>
+    
+
+    <div class="post-body markdown-body">
+        <p>这是我的第一篇博客文章！这个博客使用 <strong>Python + Flask</strong> 构建，支持 Markdown 格式。</p>
+<h2 id="_1">特性<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>简洁大方</strong> —— 精心设计的阅读体验</li>
+<li><strong>Markdown 支持</strong> —— 使用你最熟悉的写作格式</li>
+<li><strong>代码高亮</strong> —— 支持语法高亮的代码块</li>
+<li><strong>自动生成目录</strong> —— 长文自动提取目录</li>
+</ul>
+<h2 id="_2">写作示例<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">代码块<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, Blog!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Welcome&quot;</span>
+</code></pre></div>
+
+<h3 id="_4">表格<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Markdown 渲染</td>
+<td>✅ 已支持</td>
+</tr>
+<tr>
+<td>代码高亮</td>
+<td>✅ 已支持</td>
+</tr>
+<tr>
+<td>标签系统</td>
+<td>✅ 已支持</td>
+</tr>
+<tr>
+<td>自动生成目录</td>
+<td>✅ 已支持</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">引用<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>好的博客不需要复杂的交互，简洁才是美。</p>
+</blockquote>
+<h2 id="_6">开始使用<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>只需将你的 <code>.md</code> 文件放入 <code>posts/</code> 目录，博客会自动读取并展示。文件名格式建议：</p>
+<div class="highlight"><pre><span></span><code>YYYY-MM-DD-文章标题.md
+</code></pre></div>
+
+<p>你也可以在文件顶部添加 YAML frontmatter 来设置标题、日期和标签：</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">文章标题</span>
+<span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2024-01-15</span>
+<span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python, flask</span>
+<span class="nn">---</span>
+</code></pre></div>
+
+<p>祝你写作愉快！</p>
+    </div>
+
+    <footer class="post-footer">
+        <a href="/" class="back-link">← 返回首页</a>
+    </footer>
+</article>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 个人博客 · 用 Markdown 记录生活</p>
+        </div>
+    </footer>
+</body>
+</html>

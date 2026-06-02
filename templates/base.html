@@ -5,17 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}我的个人博客{% endblock %}</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
     <header class="site-header">
         <div class="container">
             <a href="/" class="site-title">我的博客</a>
-            <nav class="site-nav">
-                <a href="/" class="nav-link">首页</a>
-                <a href="/about/" class="nav-link">关于</a>
-            </nav>
+            <div class="header-right">
+                <nav class="site-nav">
+                    <a href="/" class="nav-link">首页</a>
+                    <a href="/about/" class="nav-link">关于</a>
+                </nav>
+                <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">
+                    <span class="theme-icon light">☀</span>
+                    <span class="theme-icon dark">☾</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -27,8 +39,18 @@
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; {{ year }} 个人博客 · 用 Markdown 记录生活</p>
+            <p>&copy; {{ year }} 个人博客</p>
         </div>
     </footer>
+
+    <script>
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            var html = document.documentElement;
+            var current = html.getAttribute('data-theme') || 'light';
+            var next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+    </script>
 </body>
 </html>
